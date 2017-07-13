@@ -1,0 +1,163 @@
+version: '2'
+.catalog:
+  name: routing
+  description: |
+    BOP Routing Stack Template
+  version: 0.1.0-beta-rancher1
+  category: Applications
+  maintainer: "Kazuhito Yamazawa <yamazawa@supersoftware.co.jp>"
+  minimum_rancher_version: v1.5.3
+  uuid: routing-0
+  questions:
+  - variable: "default_cert"
+    description: ""
+    label: "Default Cert Name"
+    required: true
+    default: "service.op-v1"
+    type: "string"
+  - variable: "git_service"
+    description: ""
+    label: "Git Service"
+    required: true
+    default: "git.service.op"
+    type: "string"
+  - variable: "registry_service"
+    description: ""
+    label: "Registry Service"
+    required: true
+    default: "registry.service.op"
+    type: "string"
+  - variable: "chat_service"
+    description: ""
+    label: "Chat Service"
+    required: true
+    default: "chat.service.op"
+    type: "string"
+  - variable: "apigw_service"
+    description: ""
+    label: "API Gateway Service"
+    required: true
+    default: "apigw.service.op"
+    type: "string"
+  - variable: "db_service"
+    description: ""
+    label: "DB Service"
+    required: true
+    default: "db.service.op"
+    type: "string"
+  - variable: "assets_service"
+    description: ""
+    label: "Assets Service"
+    required: true
+    default: "assets.service.op"
+    type: "string"
+  - variable: "gitlab_service_name"
+    description: ""
+    label: "Gitlab Service Name"
+    required: true
+    default: "pipeline/gitlab"
+    type: "string"
+  - variable: "kong_dashboard_service_name"
+    description: ""
+    label: "Kong Dashboard Service Name"
+    required: true
+    default: "gateway/kong-dashboard"
+    type: "string"
+  - variable: "db_service_selector"
+    description: ""
+    label: "DB Service Selector"
+    required: true
+    default: "arango_coord=1"
+    type: "string"
+  - variable: "assets_service_name"
+    description: ""
+    label: "Assets Service Name"
+    required: true
+    default: "frontend/minio-server"
+    type: "string"
+services:
+  external:
+    scale: 1
+    start_on_create: true
+    lb_config:
+      certs: []
+      default_cert: ${default_cert}
+      port_rules:
+      - hostname: ${git_service}
+        priority: 1
+        protocol: http
+        service: ${gitlab_service_name}
+        source_port: 80
+        target_port: 80
+      - hostname: ${git_service}
+        priority: 2
+        protocol: https
+        service: ${gitlab_service_name}
+        source_port: 443
+        target_port: 80
+      - hostname: ${git_service}
+        priority: 3
+        protocol: tcp
+        service: ${gitlab_service_name}
+        source_port: 2222
+        target_port: 22
+      - hostname: ${registry_service}
+        priority: 4
+        protocol: https
+        service: ${gitlab_service_name}
+        source_port: 443
+        target_port: 80
+      - hostname: ${chat_service}
+        priority: 5
+        protocol: https
+        service: ${gitlab_service_name}
+        source_port: 443
+        target_port: 80
+      - hostname: ${apigw_service}
+        priority: 6
+        protocol: https
+        service: ${kong_dashboard_service_name}
+        source_port: 443
+        target_port: 8080
+      - hostname: ${db_service}
+        priority: 9
+        protocol: https
+        service: internal
+        source_port: 443
+        target_port: 8529
+      - hostname: ${assets_service}
+        priority: 10
+        protocol: https
+        service: ${assets_service_name}
+        source_port: 443
+        target_port: 9000
+    health_check:
+      healthy_threshold: 2
+      response_timeout: 2000
+      port: 42
+      unhealthy_threshold: 3
+      initializing_timeout: 60000
+      interval: 2000
+      strategy: recreate
+      reinitializing_timeout: 60000
+  internal:
+    scale: 1
+    start_on_create: true
+    lb_config:
+      certs: []
+      port_rules:
+      - hostname: ''
+        path: ''
+        priority: 2
+        protocol: tcp
+        selector: ${db_service_selector}
+        source_port: 8529
+        target_port: 8529
+    health_check:
+      healthy_threshold: 2
+      response_timeout: 2000
+      port: 42
+      unhealthy_threshold: 3
+      initializing_timeout: 60000
+      interval: 2000
+      reinitializing_timeout: 60000

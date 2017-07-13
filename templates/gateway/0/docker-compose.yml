@@ -1,0 +1,47 @@
+version: '2'
+services:
+  postgres-data:
+    image: busybox
+    stdin_open: true
+    volumes:
+    - /var/lib/postgresql/data/pgdata
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.start_once: 'true'
+  kong-dashboard:
+    image: pgbi/kong-dashboard:v2
+    stdin_open: true
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
+  postgres:
+    image: postgres:9.4
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB: ${pg_database}
+      POSTGRES_PASSWORD: ${pg_user}
+      POSTGRES_USER: ${pg_password}
+    stdin_open: true
+    tty: true
+    volumes_from:
+    - postgres-data
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.sidekicks: postgres-data
+  kong:
+    image: kong
+    environment:
+      KONG_DATABASE: postgres
+      KONG_PG_DATABASE: ${pg_database}
+      KONG_PG_USER: ${pg_user}
+      KONG_PG_PASSWORD: ${pg_password}
+      KONG_PG_HOST: kong-database
+    stdin_open: true
+    tty: true
+    links:
+    - postgres:kong-database
+    labels:
+      io.rancher.container.hostname_override: container_name
+      io.rancher.container.pull_image: always
+      io.rancher.scheduler.global: 'true'

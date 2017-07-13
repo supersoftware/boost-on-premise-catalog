@@ -1,0 +1,60 @@
+version: '2'
+.catalog:
+  name: frontend
+  description: |
+    BOP Frontend Stack Template
+  version: 0.1.0-beta-rancher1
+  category: Applications
+  maintainer: "Kazuhito Yamazawa <yamazawa@supersoftware.co.jp>"
+  minimum_rancher_version: v1.5.3
+  uuid: frontend-0
+  questions:
+  - variable: "rancher_access_key"
+    description: "(e.g. 0123456789ABCDEFGHIJ"
+    label: "Rancher Access Key"
+    required: true
+    default: ""
+    type: "string"
+  - variable: "rancher_secret_key"
+    description: "(e.g. tWDfcApTikyUkoivSsi46jvXmFW8VFFq9F5zKfao"
+    label: "Rancher Secret Key"
+    required: true
+    default: ""
+    type: "string"
+  - variable: "mini_service_name"
+    description: ""
+    label: "Minio Service Name"
+    required: true
+    default: "minio-server"
+    type: "string"
+  - variable: "mc_alias"
+    description: ""
+    label: "MC Alias"
+    required: true
+    default: "minio"
+    type: "string"
+  - variable: "mc_api_signature"
+    description: ""
+    label: "MC API Signature"
+    required: true
+    default: "S3v4"
+    type: "string"
+services:
+  rancher-cattle-metadata:
+    retain_ip: true
+    scale: 1
+    start_on_create: true
+  minio-server:
+    retain_ip: true
+    scale: 1
+    start_on_create: true
+    health_check:
+      healthy_threshold: 2
+      response_timeout: 5000
+      port: 9000
+      unhealthy_threshold: 3
+      interval: 5000
+      strategy: recreate
+  mc:
+    scale: 1
+    start_on_create: true

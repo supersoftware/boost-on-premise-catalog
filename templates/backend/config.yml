@@ -1,0 +1,8 @@
+name: backend
+description: |
+  BOP Backend Stack Template
+version: 0.1.0-beta-rancher1
+category: Applications
+maintainer: "Kazuhito Yamazawa <yamazawa@supersoftware.co.jp>"
+license: MIT
+projectURL: https://github.com/supersoftware/boost-on-premise

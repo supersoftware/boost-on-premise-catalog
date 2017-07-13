@@ -1,0 +1,118 @@
+version: '2'
+.catalog:
+  name: pipeline
+  description: |
+    BOP Pipeline Stack Template
+  version: 0.1.0-beta-rancher1
+  category: Applications
+  maintainer: "Kazuhito Yamazawa <yamazawa@supersoftware.co.jp>"
+  minimum_rancher_version: v1.5.3
+  uuid: pipeline-0
+  questions:
+  - variable: "rancher_url"
+    description: "(e.g. https://try.rancher.com/v2-beta/projects/1a000000"
+    label: "Rancher URL"
+    required: true
+    default: ""
+    type: "string"
+  - variable: "rancher_access_key"
+    description: "(e.g. 0123456789ABCDEFGHIJ"
+    label: "Rancher Access Key"
+    required: true
+    default: ""
+    type: "string"
+  - variable: "rancher_secret_key"
+    description: "(e.g. tWDfcApTikyUkoivSsi46jvXmFW8VFFq9F5zKfao"
+    label: "Rancher Secret Key"
+    required: true
+    default: ""
+    type: "string"
+  - variable: "dns_srv_addr"
+    description: "(e.g. 172.16.0.30"
+    label: "DNS Public IP"
+    required: true
+    default: ""
+    type: "string"
+  - variable: "ctd"
+    description: "private custom toplevel domain. (e.g. git.service.op, registry.service.op"
+    label: "Custom Toplevel Domain"
+    required: true
+    default: "op"
+    type: "string"
+  - variable: "resolve_ip"
+    description: "dns resolve ip. (e.g. git.service.op => 172.16.0.30, registry.service.op => 172.16.0.30"
+    label: "Service Resolve IP"
+    required: true
+    default: "172.16.0.30"
+    type: "string"
+  - variable: "registry_user"
+    description: "create this user at gitlab manually."
+    label: "Registry User"
+    required: true
+    default: "deploy"
+    type: "string"
+  - variable: "registry_secret"
+    description: "default: registrydeploy"
+    label: "Registry User Secret"
+    required: true
+    default: "registrydeploy"
+    type: "password"
+  - variable: "ca_subject"
+    description: ""
+    label: "CA Subject"
+    required: true
+    default: "Pipeline CA"
+    type: "string"
+  - variable: "cert_name"
+    description: "must not have '/'"
+    label: "Initial Cert Name"
+    required: true
+    default: "service.op-v1"
+    type: "string"
+services:
+  runner01:
+    scale: 1
+    start_on_create: true
+  register-cert:
+    scale: 1
+    start_on_create: true
+  register-service:
+    scale: 1
+    start_on_create: true
+  register-runner:
+    scale: 1
+    start_on_create: true
+  authority:
+    scale: 1
+    start_on_create: true
+  consul:
+    scale: 1
+    start_on_create: true
+  register-registry:
+    scale: 1
+    start_on_create: true
+  gitlab:
+    scale: 1
+    start_on_create: true
+    health_check:
+      response_timeout: 2000
+      healthy_threshold: 2
+      port: 80
+      unhealthy_threshold: 3
+      initializing_timeout: 120000
+      interval: 2000
+      strategy: recreate
+      request_line: GET "/" "HTTP/1.0"
+      reinitializing_timeout: 120000
+  postfix:
+    scale: 1
+    start_on_create: true
+    health_check:
+      response_timeout: 2000
+      healthy_threshold: 2
+      port: 25
+      unhealthy_threshold: 3
+      initializing_timeout: 60000
+      interval: 2000
+      strategy: recreate
+      reinitializing_timeout: 60000

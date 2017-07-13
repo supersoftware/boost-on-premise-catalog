@@ -1,0 +1,18 @@
+version: '2'
+services:
+  external:
+    image: rancher/lb-service-haproxy:v0.7.5
+    ports:
+    - 80:80/tcp
+    - 443:443/tcp
+    - 2222:2222/tcp
+    labels:
+      io.rancher.container.agent.role: environmentAdmin
+      io.rancher.container.create_agent: 'true'
+  internal:
+    image: rancher/lb-service-haproxy:v0.7.5
+    expose:
+    - 8529:8529/tcp
+    labels:
+      io.rancher.container.agent.role: environmentAdmin
+      io.rancher.container.create_agent: 'true'

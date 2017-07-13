@@ -1,0 +1,39 @@
+version: '2'
+.catalog:
+  name: backend
+  description: |
+    BOP Backend Stack Template
+  version: 0.1.0-beta-rancher1
+  category: Applications
+  maintainer: "Kazuhito Yamazawa <yamazawa@supersoftware.co.jp>"
+  minimum_rancher_version: v1.5.3
+  uuid: backend-0
+  questions:
+services:
+  agency1:
+    scale: 1
+    start_on_create: true
+  agency2:
+    scale: 1
+    start_on_create: true
+  agency3:
+    scale: 1
+    start_on_create: true
+  coordinator1:
+    scale: 1
+    start_on_create: true
+  coordinator2:
+    scale: 1
+    start_on_create: true
+  coordinator3:
+    scale: 1
+    start_on_create: true
+  db1:
+    scale: 1
+    start_on_create: true
+  db2:
+    scale: 1
+    start_on_create: true
+  db3:
+    scale: 1
+    start_on_create: true

@@ -1,0 +1,143 @@
+version: '2'
+services:
+  runner01:
+    image: gitlab/gitlab-runner
+    dns_search:
+    - git.service.${ctd}
+    - registry.service.${ctd}
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - runner01-etc:/etc/gitlab-runner
+    dns:
+    - ${dns_srv_addr}
+    labels:
+      io.rancher.container.pull_image: always
+  register-cert:
+    image: supersoftware/bop:register-cert
+    environment:
+      RANCHER_URL: ${rancher_url}
+      RANCHER_ACCESS_KEY: ${rancher_access_key}
+      RANCHER_SECRET_KEY: ${rancher_secret_key}
+      CA_CERT_PATH: /certs/ca.pem
+      SSL_KEY_PATH: /certs/key.pem
+      SSL_CERT_PATH: /certs/cert.pem
+      CERT_NAME: ${cert_name}
+    stdin_open: true
+    tty: true
+    volumes_from:
+    - authority
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.start_once: 'true'
+      io.rancher.sidekicks: authority
+  register-service:
+    image: supersoftware/bop:register-service
+    environment:
+      CONSUL_URL: http://pipeline-register-service-consul-1.rancher.internal:8500/v1
+      SERVICES: '[{"Name":"git","Address":"${resolve_ip}"},{"Name":"registry","Address":"${resolve_ip}"},{"Name":"chat","Address":"${resolve_ip}"},{"Name":"apigw","Address":"${resolve_ip}"},{"Name":"db","Address":"${resolve_ip}"},{"Name":"assets","Address":"${resolve_ip}"}]'
+    stdin_open: true
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.sidekicks: consul
+  register-runner:
+    privileged: true
+    image: supersoftware/bop:register-runner
+    environment:
+      RANCHER_URL: ${rancher_url}
+      RANCHER_ACCESS_KEY: ${rancher_access_key}
+      RANCHER_SECRET_KEY: ${rancher_secret_key}
+      CERT_NAME: ${cert_name}
+      SERVICE_NAME: runner01
+      GITLAB_URL: https://git.service.${ctd}
+      REGISTRATION_TOKEN: ''
+      EXCUTOR: docker
+      DOCKER_IMAGE: docker:stable
+      DOCKER_VOLUMES: /var/run/docker.sock:/var/run/docker.sock
+      DOCKER_DNS: ${dns_srv_addr}
+    stdin_open: true
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.start_once: 'true'
+  authority:
+    image: paulczar/omgwtfssl
+    environment:
+      SSL_DNS: git.service.${ctd},registry.service.${ctd},chat.service.${ctd},apigw.service.${ctd},db.service.${ctd},assets.service.${ctd}
+      SSL_EXPIRE: '365'
+      SSL_SUBJECT: service.${ctd}
+      CA_SUBJECT: ${ca_subject}
+    stdin_open: true
+    volumes:
+    - /tmp/certs:/certs
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.start_once: 'true'
+  consul:
+    image: consul
+    stdin_open: true
+    tty: true
+    ports:
+    - 53:8600/tcp
+    - 53:8600/udp
+    command:
+    - agent
+    - -server
+    - -bootstrap
+    - -client
+    - 0.0.0.0
+    - -recursor
+    - 8.8.8.8
+    - -recursor
+    - 8.8.4.4
+    - -domain
+    - ${ctd}
+    - -datacenter
+    - rancher
+    - -ui
+    labels:
+      io.rancher.container.pull_image: always
+  register-registry:
+    image: supersoftware/bop:register-registry
+    environment:
+      RANCHER_ACCESS_KEY: ${rancher_access_key}
+      RANCHER_SECRET_KEY: ${rancher_secret_key}
+      RANCHER_URL: ${rancher_url}
+      REGISTRY_DOMAIN: registry.service.${ctd}
+      REGISTRY_USER: ${registry_user}
+      REGISTRY_PASS: ${registry_secret}
+    stdin_open: true
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.container.start_once: 'true'
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    hostname: git
+    environment:
+      GITLAB_OMNIBUS_CONFIG: external_url 'https://git.service.${ctd}'; gitlab_rails['gitlab_ssh_host'] = 'git.service.${ctd}'; gitlab_rails['gitlab_email_enabled'] = true; gitlab_rails['gitlab_email_from'] = 'git@service.${ctd}'; gitlab_rails['gitlab_email_display_name'] = 'Gitlab'; gitlab_rails['gitlab_email_reply_to'] = 'noreply@service.${ctd}'; gitlab_rails['gravatar_plain_url'] = 'https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon'; gitlab_rails['gravatar_ssl_url'] = 'https://secure.gravatar.com/avatar/%{hash}?s=%{size}&d=identicon'; gitlab_rails['manage_backup_path'] = true; gitlab_rails['backup_path'] = '/var/opt/gitlab/backups'; gitlab_rails['backup_archive_permissions'] = 0644; gitlab_rails['backup_pg_schema'] = 'public'; gitlab_rails['backup_keep_time'] = 604800; gitlab_rails['gitlab_shell_ssh_port'] = 2222; gitlab_rails['smtp_enable'] = true; gitlab_rails['smtp_address'] = 'postfix'; gitlab_rails['smtp_port'] = 25; gitlab_rails['smtp_domain'] = 'service.${ctd}'; gitlab_rails['smtp_authentication'] = 'false'; gitlab_rails['smtp_enable_starttls_auto'] = false; registry_external_url 'https://registry.service.${ctd}'; gitlab_rails['registry_enabled'] = true; gitlab_rails['registry_host'] = 'registry.service.${ctd}'; gitlab_rails['registry_api_url'] = 'http://localhost:5000'; gitlab_rails['registry_key_path'] = '/var/opt/gitlab/gitlab-rails/certificate.key'; gitlab_rails['registry_issuer'] = 'omnibus-gitlab-issuer'; registry['enable'] = true; registry['token_realm'] = 'https://git.service.${ctd}'; nginx['listen_port'] = 80; nginx['listen_https'] = false; nginx['proxy_set_headers'] = {'Host' => '$$http_host_with_default','X-Real-IP' => '$$remote_addr','X-Forwarded-For' => '$$proxy_add_x_forwarded_for','X-Forwarded-Proto' => 'https','X-Forwarded-Ssl' => 'on','Upgrade' => '$$http_upgrade','Connection' => '$$connection_upgrade'}; registry_nginx['enable'] = true; registry_nginx['listen_port'] = 80; registry_nginx['listen_https'] = false; registry_nginx['proxy_set_headers'] = {'Host' => '$$http_host','X-Real-IP' => '$$remote_addr','X-Forwarded-For' => '$$proxy_add_x_forwarded_for','X-Forwarded-Proto' => 'https','X-Forwarded-Ssl' => 'on'}; registry_nginx['custom_gitlab_server_config'] = 'proxy_cache_convert_head off;'; mattermost_external_url 'https://chat.service.${ctd}'; mattermost['enable'] = true; mattermost['service_site_url'] = 'https://chat.service.${ctd}'; mattermost_nginx['listen_port'] = 80; mattermost_nginx['listen_https'] = false; mattermost_nginx['proxy_set_headers'] = {'Host' => '$$http_host','X-Real-IP' => '$$remote_addr','X-Forwarded-For' => '$$proxy_add_x_forwarded_for','X-Forwarded-Proto' => 'https','X-Forwarded-Ssl' => 'on'}; mattermost['service_enable_insecure_outgoing_connections'] = true; mattermost['email_enable_sign_in_with_email'] = false; mattermost['email_enable_sign_up_with_email'] = false; mattermost['email_send_email_notifications'] = true; mattermost['email_smtp_server'] = 'postfix'; mattermost['email_smtp_port'] = 25; mattermost['email_connection_security'] = nil; mattermost['email_feedback_name'] = "GitLab Mattermost"; mattermost['email_feedback_email'] = "mattermost@service.${ctd}"; mattermost['email_enable_batching'] = true;
+    stdin_open: true
+    volumes:
+    - gitlab-etc:/etc/gitlab
+    - gitlab-opt:/var/opt/gitlab
+    - gitlab-log:/var/log/gitlab
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
+      io.rancher.sidekicks: postfix
+  postfix:
+    image: tozd/postfix
+    hostname: git
+    environment:
+      MY_NETWORKS: 10.42.0.0/16,127.0.0.0/8
+      ROOT_ALIAS: info@servie.${ctd}
+    stdin_open: true
+    volumes:
+    - postfix-log:/var/log/postfix
+    - postfix-spool:/var/spool/postfix
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
