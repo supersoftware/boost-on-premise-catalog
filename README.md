@@ -22,7 +22,7 @@ Rancher用プライベートカタログです。
 
 ##### Insecure Registry
 
-Gitlab RegistryをHTTPSで利用しますが、証明書もカタログ起動後に内部で生成するため、あらかじめRegistryサービスのドメイン(registry.service.op)をInsecureRegistryとして登録しています。ドメインをデフォルトから変更する場合は、こちらも合わせて変更してください。
+Gitlab RegistryをHTTPSで利用しますが、証明書もカタログ起動後に内部で生成するため、あらかじめRegistryサービスのドメイン(`registry.service.op`)をInsecureRegistryとして登録しています。ドメインをデフォルトから変更する場合は、こちらも合わせて変更してください。
 
 ##### Network
 
@@ -35,4 +35,4 @@ ConsulをExternalDNSとして利用しています。
 
 ##### SearchDomain
 
-Gitlab CI Runnerがホストdocker経由で名前解決できるように、明示的にgit.service.opとregistry.service.opをサーチドメインに指定しています。
+Gitlab CI Runnerがホストdocker経由で名前解決できるように、明示的に`git.service.op`と`registry.service.op`をサーチドメインに指定しています。
