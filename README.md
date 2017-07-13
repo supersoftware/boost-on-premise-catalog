@@ -6,11 +6,11 @@ Rancher用プライベートカタログです。
 
 以下５つのスタックで構成でされています。
 
-- backend
-- frontend
-- gateway
-- pipeline
-- routing
+- [backend](templates/backend/0/README.md)
+- [frontend](templates/frontend/0/README.md)
+- [gateway](templates/gateway/0/README.md)
+- [pipeline](templates/pipeline/0/README.md)
+- [routing](templates/routing/0/README.md)
 
 #### ホストの事前設定
 
