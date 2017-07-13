@@ -36,3 +36,7 @@ ConsulをExternalDNSとして利用しています。
 ##### SearchDomain
 
 Gitlab CI Runnerがホストdocker経由で名前解決できるように、明示的に`git.service.op`と`registry.service.op`をサーチドメインに指定しています。
+
+## boost-on-premise-docker
+
+カタログで使用しているカスタムイメージのDockerfileは[コチラ](https://github.com/supersoftware/boost-on-premise-docker)です。
