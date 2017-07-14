@@ -79,6 +79,9 @@ services:
   register-service:
     scale: 1
     start_on_create: true
+  selenium-node-phantomjs:
+    scale: 1
+    start_on_create: true
   register-runner:
     scale: 1
     start_on_create: true
@@ -89,6 +92,9 @@ services:
     scale: 1
     start_on_create: true
   register-registry:
+    scale: 1
+    start_on_create: true
+  selenium-hub:
     scale: 1
     start_on_create: true
   gitlab:

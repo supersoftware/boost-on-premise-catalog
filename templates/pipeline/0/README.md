@@ -15,6 +15,8 @@ Git Repository、CI Runner、Docker Registry、External DNS、証明書認証局
 - Service Register
   - Consul
 - Gitlab CI Runner
+- SeleniumHub
+  - NodePhantomjs
 
 #### 説明
 
@@ -53,3 +55,7 @@ Gitlab RegistryのエンドポイントをRancher Serverに登録します。こ
 ##### Gitlab CI Runner
 
 Gitlab CIのrunnerとして動作します。runnerを追加する場合は、`runner01`から名前とボリューム名を変更したクローンを作成し、`register-runner`の設定を変更してアップグレードします。
+
+##### SeleniumHub
+
+Gitlab CI Runnerからe2eテストを実行する際のSelenium Grid環境です。

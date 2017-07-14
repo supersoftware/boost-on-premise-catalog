@@ -19,6 +19,7 @@ BoostOnPremiseを初期設定で起動した場合、以下のサービスが利
 - `https://git.service.op` #=> Pipeline(Gitlab HTTPS)
 - `https://registry.service.op` #=> Pipeline(Gitlab Registry)
 - `https://chat.service.op` #=> Pipeline(Gitlab Mattermost)
+- `https://selenium.service.op` #=> Pipeline(Selenium Grid)
 - `https://apigw.service.op` #=> Gateway(Kong Dashboard)
 - `https://db.service.op` #=> Backend(ArangoDB WebUI)
 - `https://assets.service.op` #=> Frontend(Minio)
