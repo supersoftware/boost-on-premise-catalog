@@ -34,12 +34,20 @@ services:
     image: supersoftware/bop:register-service
     environment:
       CONSUL_URL: http://pipeline-register-service-consul-1.rancher.internal:8500/v1
-      SERVICES: '[{"Name":"git","Address":"${resolve_ip}"},{"Name":"registry","Address":"${resolve_ip}"},{"Name":"chat","Address":"${resolve_ip}"},{"Name":"apigw","Address":"${resolve_ip}"},{"Name":"db","Address":"${resolve_ip}"},{"Name":"assets","Address":"${resolve_ip}"}]'
+      SERVICES: '[{"Name":"git","Address":"${resolve_ip}"},{"Name":"registry","Address":"${resolve_ip}"},{"Name":"chat","Address":"${resolve_ip}"},{"Name":"apigw","Address":"${resolve_ip}"},{"Name":"db","Address":"${resolve_ip}"},{"Name":"assets","Address":"${resolve_ip}"},{"Name":"selenium","Address":"${resolve_ip}"}]'
     stdin_open: true
     tty: true
     labels:
       io.rancher.container.pull_image: always
       io.rancher.sidekicks: consul
+  selenium-node-phantomjs:
+    image: selenium/node-phantomjs:3.4.0-einsteinium
+    stdin_open: true
+    tty: true
+    links:
+    - selenium-hub:hub
+    labels:
+      io.rancher.container.pull_image: always
   register-runner:
     privileged: true
     image: supersoftware/bop:register-runner
@@ -65,7 +73,7 @@ services:
   authority:
     image: paulczar/omgwtfssl
     environment:
-      SSL_DNS: git.service.${ctd},registry.service.${ctd},chat.service.${ctd},apigw.service.${ctd},db.service.${ctd},assets.service.${ctd}
+      SSL_DNS: git.service.${ctd},registry.service.${ctd},chat.service.${ctd},apigw.service.${ctd},db.service.${ctd},assets.service.${ctd},selenium.service.${ctd}
       SSL_EXPIRE: '365'
       SSL_SUBJECT: service.${ctd}
       CA_SUBJECT: ${ca_subject}
@@ -114,6 +122,12 @@ services:
     labels:
       io.rancher.container.pull_image: always
       io.rancher.container.start_once: 'true'
+  selenium-hub:
+    image: selenium/hub:3.4.0-einsteinium
+    stdin_open: true
+    tty: true
+    labels:
+      io.rancher.container.pull_image: always
   gitlab:
     image: gitlab/gitlab-ce:latest
     hostname: git
