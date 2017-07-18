@@ -1,6 +1,9 @@
 ## boost-on-premise-catalog
-
 Rancher用プライベートカタログです。
+
+<p align="center">
+<img align=center src="https://cdn.rawgit.com/supersoftware/boost-on-premise-catalog/preview/logo.svg" width=50% />
+</p>
 
 フルスタックなWebアプリケーション開発&動作環境をプライベートネットワーク内で完結できるように調整しています。
 
