@@ -79,7 +79,7 @@ version: '2'
     description: "MYSQL_ROOT_PASS for nextcloud"
     label: "MySQL root password"
     required: true
-    type: "passowrd"
+    type: "password"
   - variable: "nc_mysql_user"
     description: "MYSQL_USER for nextcloud"
     label: "MySQL User"
