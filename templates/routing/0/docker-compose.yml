@@ -9,6 +9,7 @@ services:
     labels:
       io.rancher.container.agent.role: environmentAdmin
       io.rancher.container.create_agent: 'true'
+      io.rancher.container.hostname_override: container_name
   internal:
     image: rancher/lb-service-haproxy:v0.7.5
     expose:
@@ -16,3 +17,4 @@ services:
     labels:
       io.rancher.container.agent.role: environmentAdmin
       io.rancher.container.create_agent: 'true'
+      io.rancher.container.hostname_override: container_name

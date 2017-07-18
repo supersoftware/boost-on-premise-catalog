@@ -12,6 +12,7 @@ services:
     - ${dns_srv_addr}
     labels:
       io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
   register-cert:
     image: supersoftware/bop:register-cert
     environment:
@@ -30,6 +31,7 @@ services:
       io.rancher.container.pull_image: always
       io.rancher.container.start_once: 'true'
       io.rancher.sidekicks: authority
+      io.rancher.container.hostname_override: container_name
   register-service:
     image: supersoftware/bop:register-service
     environment:
@@ -40,6 +42,7 @@ services:
     labels:
       io.rancher.container.pull_image: always
       io.rancher.sidekicks: consul
+      io.rancher.container.hostname_override: container_name
   selenium-node-phantomjs:
     image: selenium/node-phantomjs:3.4.0-einsteinium
     stdin_open: true
@@ -48,6 +51,7 @@ services:
     - selenium-hub:hub
     labels:
       io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
   register-runner:
     privileged: true
     image: supersoftware/bop:register-runner
@@ -70,6 +74,7 @@ services:
     labels:
       io.rancher.container.pull_image: always
       io.rancher.container.start_once: 'true'
+      io.rancher.container.hostname_override: container_name
   authority:
     image: paulczar/omgwtfssl
     environment:
@@ -84,6 +89,7 @@ services:
     labels:
       io.rancher.container.pull_image: always
       io.rancher.container.start_once: 'true'
+      io.rancher.container.hostname_override: container_name
   consul:
     image: consul
     stdin_open: true
@@ -108,6 +114,7 @@ services:
     - -ui
     labels:
       io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
   register-registry:
     image: supersoftware/bop:register-registry
     environment:
@@ -122,12 +129,14 @@ services:
     labels:
       io.rancher.container.pull_image: always
       io.rancher.container.start_once: 'true'
+      io.rancher.container.hostname_override: container_name
   selenium-hub:
     image: selenium/hub:3.4.0-einsteinium
     stdin_open: true
     tty: true
     labels:
       io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
   gitlab:
     image: gitlab/gitlab-ce:latest
     hostname: git
@@ -142,6 +151,7 @@ services:
     labels:
       io.rancher.container.pull_image: always
       io.rancher.sidekicks: postfix
+      io.rancher.container.hostname_override: container_name
   postfix:
     image: tozd/postfix
     hostname: git
@@ -155,3 +165,4 @@ services:
     tty: true
     labels:
       io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
