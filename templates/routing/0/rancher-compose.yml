@@ -57,6 +57,12 @@ version: '2'
     required: true
     default: "selenium.service.op"
     type: "string"
+  - variable: "nextcloud_service"
+    description: ""
+    label: "Nextcloud Service"
+    required: true
+    default: "share.service.op"
+    type: "string"
   - variable: "gitlab_service_name"
     description: ""
     label: "Gitlab Service Name"
@@ -86,6 +92,12 @@ version: '2'
     label: "Selenium Service Name"
     required: true
     default: "pipeline/selenium-hub"
+    type: "string"
+  - variable: "nextcloud_service_name"
+    description: ""
+    label: "Nextcloud Service Name"
+    required: true
+    default: "pipeline/nextcloud"
     type: "string"
 services:
   external:
@@ -149,6 +161,12 @@ services:
         service: ${selenium_service_name}
         source_port: 443
         target_port: 4444
+      - hostname: ${nextcloud_service}
+        priority: 12
+        protocol: https
+        service: ${nextcloud_service_name}
+        source_port: 443
+        target_port: 80
     health_check:
       healthy_threshold: 2
       response_timeout: 2000

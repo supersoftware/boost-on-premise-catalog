@@ -36,7 +36,7 @@ services:
     image: supersoftware/bop:register-service
     environment:
       CONSUL_URL: http://pipeline-register-service-consul-1.rancher.internal:8500/v1
-      SERVICES: '[{"Name":"git","Address":"${resolve_ip}"},{"Name":"registry","Address":"${resolve_ip}"},{"Name":"chat","Address":"${resolve_ip}"},{"Name":"apigw","Address":"${resolve_ip}"},{"Name":"db","Address":"${resolve_ip}"},{"Name":"assets","Address":"${resolve_ip}"},{"Name":"selenium","Address":"${resolve_ip}"}]'
+      SERVICES: '[{"Name":"git","Address":"${resolve_ip}"},{"Name":"registry","Address":"${resolve_ip}"},{"Name":"chat","Address":"${resolve_ip}"},{"Name":"apigw","Address":"${resolve_ip}"},{"Name":"db","Address":"${resolve_ip}"},{"Name":"assets","Address":"${resolve_ip}"},{"Name":"selenium","Address":"${resolve_ip}"},{"Name":"share","Address":"${resolve_ip}"}]'
     stdin_open: true
     tty: true
     labels:
@@ -78,7 +78,7 @@ services:
   authority:
     image: paulczar/omgwtfssl
     environment:
-      SSL_DNS: git.service.${ctd},registry.service.${ctd},chat.service.${ctd},apigw.service.${ctd},db.service.${ctd},assets.service.${ctd},selenium.service.${ctd}
+      SSL_DNS: git.service.${ctd},registry.service.${ctd},chat.service.${ctd},apigw.service.${ctd},db.service.${ctd},assets.service.${ctd},selenium.service.${ctd},share.service.${ctd}
       SSL_EXPIRE: '365'
       SSL_SUBJECT: service.${ctd}
       CA_SUBJECT: ${ca_subject}
@@ -165,4 +165,40 @@ services:
     tty: true
     labels:
       io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
+  nextcloud:
+    image: nextcloud:12-apache
+    volumes_from:
+    - nextcloud-data
+    labels:
+      io.rancher.sidekicks: nextcloud-data
+      io.rancher.container.hostname_override: container_name
+  mariadb:
+    image: mariadb:10
+    environment:
+      MYSQL_DATABASE: ${nc_mysql_database}
+      MYSQL_PASSWORD: ${nc_mysql_pass}
+      MYSQL_ROOT_PASSWORD: ${nc_mysql_root_pass}
+      MYSQL_USER: ${nc_mysql_user}
+    labels:
+      io.rancher.sidekicks: mariadb-data
+      io.rancher.container.hostname_override: container_name
+  mariadb-data:
+    image: mariadb:10
+    entrypoint:
+    - /bin/true
+    volumes:
+    - /var/lib/mysql
+    tty: true
+    labels:
+      io.rancher.container.start_once: 'true'
+      io.rancher.container.hostname_override: container_name
+  nextcloud-data:
+    image: nextcloud:12-apache
+    entrypoint:
+    - /bin/true
+    volumes:
+    - /var/www/html
+    labels:
+      io.rancher.container.start_once: 'true'
       io.rancher.container.hostname_override: container_name
