@@ -4,7 +4,7 @@ BoostOnPremiseのPipelineとして機能するスタックを作成すること�
 
 #### 構成
 
-Git Repository、CI Runner、Docker Registry、External DNS、証明書認証局、構成管理ツールなどが含まれます。
+Git Repository、CI Runner、Docker Registry、Nextcloud、External DNS、証明書認証局、構成管理ツールなどが含まれます。
 
 - Gitlab
   - Postfix
@@ -17,6 +17,7 @@ Git Repository、CI Runner、Docker Registry、External DNS、証明書認証局
 - Gitlab CI Runner
 - SeleniumHub
   - NodePhantomjs
+- Nextcloud
 
 #### 説明
 
@@ -59,3 +60,15 @@ Gitlab CIのrunnerとして動作します。runnerを追加する場合は、`r
 ##### SeleniumHub
 
 Gitlab CI Runnerからe2eテストを実行する際のSelenium Grid環境です。
+
+BoostOnPremiseを初期設定で起動した場合
+
+`https://selenium.service.op`でWebUIにアクセスできます。
+
+##### Nextcloud
+
+チームメンバーとコラボレーションする際に利用するファイル共有サービスです。初回アクセス時に管理アカウントや接続DBなどの設定を行います。
+
+BoostOnPremiseを初期設定で起動した場合
+
+`https://share.service.op`でアクセスできます。
