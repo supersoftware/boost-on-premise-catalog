@@ -9,12 +9,14 @@ services:
     labels:
       io.rancher.container.pull_image: always
       io.rancher.container.start_once: 'true'
+      io.rancher.container.hostname_override: container_name
   kong-dashboard:
     image: pgbi/kong-dashboard:v2
     stdin_open: true
     tty: true
     labels:
       io.rancher.container.pull_image: always
+      io.rancher.container.hostname_override: container_name
   postgres:
     image: postgres:9.4
     environment:
@@ -29,6 +31,7 @@ services:
     labels:
       io.rancher.container.pull_image: always
       io.rancher.sidekicks: postgres-data
+      io.rancher.container.hostname_override: container_name
   kong:
     image: kong
     environment:

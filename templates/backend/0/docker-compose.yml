@@ -20,6 +20,8 @@ services:
     - 'true'
     - --database.directory
     - /var/lib/arangodb3/agency1
+    labels:
+      io.rancher.container.hostname_override: container_name
   agency2:
     image: arangodb/arangodb
     environment:
@@ -40,6 +42,8 @@ services:
     - 'true'
     - --database.directory
     - /var/lib/arangodb3/agency2
+    labels:
+      io.rancher.container.hostname_override: container_name
   agency3:
     image: arangodb/arangodb
     environment:
@@ -66,6 +70,8 @@ services:
     - 'true'
     - --database.directory
     - /var/lib/arangodb3/agency3
+    labels:
+      io.rancher.container.hostname_override: container_name
   coordinator1:
     image: arangodb/arangodb
     environment:
@@ -91,6 +97,7 @@ services:
     - /var/lib/arangodb3/coordinator1
     labels:
       arango_coord: '1'
+      io.rancher.container.hostname_override: container_name
   coordinator2:
     image: arangodb/arangodb
     environment:
@@ -116,6 +123,7 @@ services:
     - /var/lib/arangodb3/coordinator2
     labels:
       arango_coord: '1'
+      io.rancher.container.hostname_override: container_name
   coordinator3:
     image: arangodb/arangodb
     environment:
@@ -141,6 +149,7 @@ services:
     - /var/lib/arangodb3/coordinator3
     labels:
       arango_coord: '1'
+      io.rancher.container.hostname_override: container_name
   db1:
     image: arangodb/arangodb
     environment:
@@ -164,6 +173,8 @@ services:
     - tcp://agency3:8529
     - --database.directory
     - /var/lib/arangodb3/primary1
+    labels:
+      io.rancher.container.hostname_override: container_name
   db2:
     image: arangodb/arangodb
     environment:
@@ -187,6 +198,8 @@ services:
     - tcp://agency3:8529
     - --database.directory
     - /var/lib/arangodb3/primary2
+    labels:
+      io.rancher.container.hostname_override: container_name
   db3:
     image: arangodb/arangodb
     environment:
@@ -210,3 +223,5 @@ services:
     - tcp://agency3:8529
     - --database.directory
     - /var/lib/arangodb3/primary3
+    labels:
+      io.rancher.container.hostname_override: container_name
