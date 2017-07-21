@@ -107,6 +107,8 @@ services:
     - 8.8.8.8
     - -recursor
     - 8.8.4.4
+    - -recursor
+    - 169.254.169.250
     - -domain
     - ${ctd}
     - -datacenter
