@@ -43,8 +43,8 @@ services:
       io.rancher.container.pull_image: always
       io.rancher.sidekicks: consul
       io.rancher.container.hostname_override: container_name
-  selenium-node-phantomjs:
-    image: selenium/node-phantomjs:3.4.0-einsteinium
+  selenium-node-chrome:
+    image: selenium/node-chrome:3.4.0-einsteinium
     stdin_open: true
     tty: true
     links:
