@@ -150,9 +150,3 @@ services:
   mariadb:
     scale: 1
     start_on_create: true
-  mariadb-data:
-    scale: 1
-    start_on_create: true
-  nextcloud-data:
-    scale: 1
-    start_on_create: true
