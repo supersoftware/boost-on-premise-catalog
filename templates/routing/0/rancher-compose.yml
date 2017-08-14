@@ -79,7 +79,7 @@ version: '2'
     description: ""
     label: "DB Service Selector"
     required: true
-    default: "arango_coord=1"
+    default: "arangodb=coordinator"
     type: "string"
   - variable: "assets_service_name"
     description: ""

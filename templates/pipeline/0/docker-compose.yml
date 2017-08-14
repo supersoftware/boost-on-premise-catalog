@@ -1,4 +1,33 @@
 version: '2'
+volumes:
+  authority-certs:
+    driver: pxd
+  nextcloud-mariadb:
+    driver: pxd
+    driver_opts:
+      size: '10'
+  nextcloud-data:
+    driver: pxd
+    driver_opts:
+      size: '100'
+  gitlab-opt:
+    driver: pxd
+    driver_opts:
+      size: '100'
+  gitlab-etc:
+    driver: pxd
+  gitlab-log:
+    driver: pxd
+  postfix-log:
+    driver: pxd
+  postfix-spool:
+    driver: pxd
+    driver_opts:
+      size: '5'
+  runner01-etc:
+    driver: pxd
+    driver_opts:
+      size: '5'
 services:
   runner01:
     image: gitlab/gitlab-runner
@@ -36,7 +65,7 @@ services:
     image: supersoftware/bop:register-service
     environment:
       CONSUL_URL: http://pipeline-register-service-consul-1.rancher.internal:8500/v1
-      SERVICES: '[{"Name":"git","Address":"${resolve_ip}"},{"Name":"registry","Address":"${resolve_ip}"},{"Name":"chat","Address":"${resolve_ip}"},{"Name":"apigw","Address":"${resolve_ip}"},{"Name":"db","Address":"${resolve_ip}"},{"Name":"assets","Address":"${resolve_ip}"},{"Name":"selenium","Address":"${resolve_ip}"},{"Name":"share","Address":"${resolve_ip}"}]'
+      SERVICES: '[{"ID":"git1","Name":"git","Address":"${resolve_ip}"},{"ID":"registry","Name":"registry","Address":"${resolve_ip}"},{"ID":"chat1","Name":"chat","Address":"${resolve_ip}"},{"ID":"apigw1","Name":"apigw","Address":"${resolve_ip}"},{"ID":"db1","Name":"db","Address":"${resolve_ip}"},{"ID":"assets1","Name":"assets","Address":"${resolve_ip}"},{"ID":"selenium1","Name":"selenium","Address":"${resolve_ip}"},{"ID":"share1","Name":"share","Address":"${resolve_ip}"}]'
     stdin_open: true
     tty: true
     labels:
@@ -84,7 +113,7 @@ services:
       CA_SUBJECT: ${ca_subject}
     stdin_open: true
     volumes:
-    - /tmp/certs:/certs
+    - authority-certs:/certs
     tty: true
     labels:
       io.rancher.container.pull_image: always
@@ -114,6 +143,7 @@ services:
     - -ui
     labels:
       io.rancher.container.pull_image: always
+      io.rancher.scheduler.affinity:host_label: external_dns=true
       io.rancher.container.hostname_override: container_name
   register-registry:
     image: supersoftware/bop:register-registry
@@ -147,7 +177,7 @@ services:
     - gitlab-etc:/etc/gitlab
     - gitlab-opt:/var/opt/gitlab
     - gitlab-log:/var/log/gitlab
-    - /tmp/certs/ca.pem:/etc/gitlab/trusted-certs/ca.pem
+    - authority-certs:/etc/gitlab/trusted-certs
     tty: true
     links:
     - register-cert:register-cert
@@ -171,10 +201,9 @@ services:
       io.rancher.container.hostname_override: container_name
   nextcloud:
     image: nextcloud:12-apache
-    volumes_from:
-    - nextcloud-data
+    volumes:
+    - nextcloud-data:/var/www/html
     labels:
-      io.rancher.sidekicks: nextcloud-data
       io.rancher.container.hostname_override: container_name
   mariadb:
     image: mariadb:10
@@ -183,25 +212,7 @@ services:
       MYSQL_PASSWORD: ${nc_mysql_pass}
       MYSQL_ROOT_PASSWORD: ${nc_mysql_root_pass}
       MYSQL_USER: ${nc_mysql_user}
-    labels:
-      io.rancher.sidekicks: mariadb-data
-      io.rancher.container.hostname_override: container_name
-  mariadb-data:
-    image: mariadb:10
-    entrypoint:
-    - /bin/true
     volumes:
-    - /var/lib/mysql
-    tty: true
+    - nextcloud-mariadb:/var/lib/mysql
     labels:
-      io.rancher.container.start_once: 'true'
-      io.rancher.container.hostname_override: container_name
-  nextcloud-data:
-    image: nextcloud:12-apache
-    entrypoint:
-    - /bin/true
-    volumes:
-    - /var/www/html
-    labels:
-      io.rancher.container.start_once: 'true'
       io.rancher.container.hostname_override: container_name

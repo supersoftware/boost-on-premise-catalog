@@ -1,9 +1,61 @@
 version: '2'
+volumes:
+  arangodb3-agency1:
+    driver: pxd
+  arangodb3-agency2:
+    driver: pxd
+  arangodb3-agency3:
+    driver: pxd
+  arangodb3-coordinator1:
+    driver: pxd
+  arangodb3-coordinator2:
+    driver: pxd
+  arangodb3-coordinator3:
+    driver: pxd
+  arangodb3-db1:
+    driver: pxd
+    driver_opts:
+      size: '10'
+  arangodb3-db2:
+    driver: pxd
+    driver_opts:
+      size: '10'
+  arangodb3-db3:
+    driver: pxd
+    driver_opts:
+      size: '10'
+  arangodb3-apps-agency1:
+    driver: pxd
+  arangodb3-apps-agency2:
+    driver: pxd
+  arangodb3-apps-agency3:
+    driver: pxd
+  arangodb3-apps-coordinator1:
+    driver: pxd
+    driver_opts:
+      size: '10'
+  arangodb3-apps-coordinator2:
+    driver: pxd
+    driver_opts:
+      size: '10'
+  arangodb3-apps-coordinator3:
+    driver: pxd
+    driver_opts:
+      size: '10'
+  arangodb3-apps-db1:
+    driver: pxd
+  arangodb3-apps-db2:
+    driver: pxd
+  arangodb3-apps-db3:
+    driver: pxd
 services:
   agency1:
     image: arangodb/arangodb
     environment:
       ARANGO_NO_AUTH: '1'
+    volumes:
+    - arangodb3-agency1:/var/lib/arangodb3
+    - arangodb3-apps-agency1:/var/lib/arangodb3-apps
     command:
     - arangod
     - --server.endpoint
@@ -21,11 +73,16 @@ services:
     - --database.directory
     - /var/lib/arangodb3/agency1
     labels:
+      arangodb: agency
       io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:container_label_ne: arangodb=agency
   agency2:
     image: arangodb/arangodb
     environment:
       ARANGO_NO_AUTH: '1'
+    volumes:
+    - arangodb3-agency2:/var/lib/arangodb3
+    - arangodb3-apps-agency2:/var/lib/arangodb3-apps
     command:
     - arangod
     - --server.endpoint
@@ -43,11 +100,16 @@ services:
     - --database.directory
     - /var/lib/arangodb3/agency2
     labels:
+      arangodb: agency
       io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:container_label_ne: arangodb=agency
   agency3:
     image: arangodb/arangodb
     environment:
       ARANGO_NO_AUTH: '1'
+    volumes:
+    - arangodb3-agency3:/var/lib/arangodb3
+    - arangodb3-apps-agency3:/var/lib/arangodb3-apps
     command:
     - arangod
     - --server.endpoint
@@ -71,11 +133,16 @@ services:
     - --database.directory
     - /var/lib/arangodb3/agency3
     labels:
+      arangodb: agency
       io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:container_label_ne: arangodb=agency
   coordinator1:
     image: arangodb/arangodb
     environment:
       ARANGO_NO_AUTH: '1'
+    volumes:
+    - arangodb3-coordinator1:/var/lib/arangodb3
+    - arangodb3-apps-coordinator1:/var/lib/arangodb3-apps
     command:
     - arangod
     - --server.authentication=false
@@ -96,12 +163,16 @@ services:
     - --database.directory
     - /var/lib/arangodb3/coordinator1
     labels:
-      arango_coord: '1'
+      arangodb: coordinator
       io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:container_label_ne: arangodb=coordinator
   coordinator2:
     image: arangodb/arangodb
     environment:
       ARANGO_NO_AUTH: '1'
+    volumes:
+    - arangodb3-coordinator2:/var/lib/arangodb3
+    - arangodb3-apps-coordinator2:/var/lib/arangodb3-apps
     command:
     - arangod
     - --server.authentication=false
@@ -122,12 +193,16 @@ services:
     - --database.directory
     - /var/lib/arangodb3/coordinator2
     labels:
-      arango_coord: '1'
+      arangodb: coordinator
       io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:container_label_ne: arangodb=coordinator
   coordinator3:
     image: arangodb/arangodb
     environment:
       ARANGO_NO_AUTH: '1'
+    volumes:
+    - arangodb3-coordinator3:/var/lib/arangodb3
+    - arangodb3-apps-coordinator3:/var/lib/arangodb3-apps
     command:
     - arangod
     - --server.authentication=false
@@ -148,12 +223,16 @@ services:
     - --database.directory
     - /var/lib/arangodb3/coordinator3
     labels:
-      arango_coord: '1'
+      arangodb: coordinator
       io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:container_label_ne: arangodb=coordinator
   db1:
     image: arangodb/arangodb
     environment:
       ARANGO_NO_AUTH: '1'
+    volumes:
+    - arangodb3-db1:/var/lib/arangodb3
+    - arangodb3-apps-db1:/var/lib/arangodb3-apps
     command:
     - arangod
     - --server.authentication=false
@@ -174,11 +253,16 @@ services:
     - --database.directory
     - /var/lib/arangodb3/primary1
     labels:
+      arangodb: db
       io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:container_label_ne: arangodb=db
   db2:
     image: arangodb/arangodb
     environment:
       ARANGO_NO_AUTH: '1'
+    volumes:
+    - arangodb3-db2:/var/lib/arangodb3
+    - arangodb3-apps-db2:/var/lib/arangodb3-apps
     command:
     - arangod
     - --server.authentication=false
@@ -199,11 +283,16 @@ services:
     - --database.directory
     - /var/lib/arangodb3/primary2
     labels:
+      arangodb: db
       io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:container_label_ne: arangodb=db
   db3:
     image: arangodb/arangodb
     environment:
       ARANGO_NO_AUTH: '1'
+    volumes:
+    - arangodb3-db3:/var/lib/arangodb3
+    - arangodb3-apps-db3:/var/lib/arangodb3-apps
     command:
     - arangod
     - --server.authentication=false
@@ -224,4 +313,6 @@ services:
     - --database.directory
     - /var/lib/arangodb3/primary3
     labels:
+      arangodb: db
       io.rancher.container.hostname_override: container_name
+      io.rancher.scheduler.affinity:container_label_ne: arangodb=db

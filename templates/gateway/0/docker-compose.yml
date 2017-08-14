@@ -1,15 +1,10 @@
 version: '2'
+volumes:
+  kong-postgres:
+    driver: pxd
+    driver_opts:
+      size: '5'
 services:
-  postgres-data:
-    image: busybox
-    stdin_open: true
-    volumes:
-    - /var/lib/postgresql/data/pgdata
-    tty: true
-    labels:
-      io.rancher.container.pull_image: always
-      io.rancher.container.start_once: 'true'
-      io.rancher.container.hostname_override: container_name
   kong-dashboard:
     image: pgbi/kong-dashboard:v2
     stdin_open: true
@@ -26,11 +21,10 @@ services:
       POSTGRES_PASSWORD: ${pg_password}
     stdin_open: true
     tty: true
-    volumes_from:
-    - postgres-data
+    volumes:
+    - kong-postgres:/var/lib/postgresql/data/pgdata
     labels:
       io.rancher.container.pull_image: always
-      io.rancher.sidekicks: postgres-data
       io.rancher.container.hostname_override: container_name
   kong:
     image: kong

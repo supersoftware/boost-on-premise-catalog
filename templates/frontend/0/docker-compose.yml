@@ -1,11 +1,13 @@
 version: '2'
 volumes:
   minio-scheduler-setting:
-    driver: local
+    driver: pxd
     per_container: true
   minio-data-0:
-    driver: local
+    driver: pxd
     per_container: true
+    driver_opts:
+      size: '100'
 services:
   rancher-cattle-metadata:
     image: webcenter/rancher-cattle-metadata:1.0.1
