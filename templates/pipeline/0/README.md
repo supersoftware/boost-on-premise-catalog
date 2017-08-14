@@ -16,7 +16,7 @@ Git Repository、CI Runner、Docker Registry、Nextcloud、External DNS、証明
   - Consul
 - Gitlab CI Runner
 - SeleniumHub
-  - NodePhantomjs
+  - NodeChrome
 - Nextcloud
 
 #### 説明

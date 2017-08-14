@@ -101,7 +101,7 @@ services:
   register-service:
     scale: 1
     start_on_create: true
-  selenium-node-phantomjs:
+  selenium-node-chrome:
     scale: 1
     start_on_create: true
   register-runner:
