@@ -2,10 +2,10 @@ version: '2'
 volumes:
   schd-conf:
     driver: rexray
-    per_container: true
+    # per_container: true
   data-0:
     driver: rexray
-    per_container: true
+    # per_container: true
 services:
   rancher-cattle-metadata:
     image: webcenter/rancher-cattle-metadata:1.0.1
