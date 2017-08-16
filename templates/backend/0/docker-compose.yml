@@ -2,58 +2,40 @@ version: '2'
 volumes:
   arangodb3-agency1:
     external: true
-    driver: rexray
   arangodb3-agency2:
     external: true
-    driver: rexray
   arangodb3-agency3:
     external: true
-    driver: rexray
   arangodb3-coordinator1:
     external: true
-    driver: rexray
   arangodb3-coordinator2:
     external: true
-    driver: rexray
   arangodb3-coordinator3:
     external: true
-    driver: rexray
   arangodb3-db1:
     external: true
-    driver: rexray
   arangodb3-db2:
     external: true
-    driver: rexray
   arangodb3-db3:
     external: true
-    driver: rexray
   arangodb3-apps-agency1:
     external: true
-    driver: rexray
   arangodb3-apps-agency2:
     external: true
-    driver: rexray
   arangodb3-apps-agency3:
     external: true
-    driver: rexray
   arangodb3-apps-coordinator1:
     external: true
-    driver: rexray
   arangodb3-apps-coordinator2:
     external: true
-    driver: rexray
   arangodb3-apps-coordinator3:
     external: true
-    driver: rexray
   arangodb3-apps-db1:
     external: true
-    driver: rexray
   arangodb3-apps-db2:
     external: true
-    driver: rexray
   arangodb3-apps-db3:
     external: true
-    driver: rexray
 services:
   agency1:
     image: arangodb/arangodb
