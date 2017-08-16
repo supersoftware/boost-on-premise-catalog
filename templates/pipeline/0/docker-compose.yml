@@ -1,10 +1,10 @@
 version: '2'
 volumes:
-  authority-certs:
+  certs:
     driver: rexray
-  nextcloud-mariadb:
+  mariadb:
     driver: rexray
-  nextcloud-data:
+  nc-data:
     driver: rexray
   gitlab-opt:
     driver: rexray
@@ -103,7 +103,7 @@ services:
       CA_SUBJECT: ${ca_subject}
     stdin_open: true
     volumes:
-    - authority-certs:/certs
+    - certs:/certs
     tty: true
     labels:
       io.rancher.container.pull_image: always
@@ -192,7 +192,7 @@ services:
   nextcloud:
     image: nextcloud:12-apache
     volumes:
-    - nextcloud-data:/var/www/html
+    - nc-data:/var/www/html
     labels:
       io.rancher.container.hostname_override: container_name
   mariadb:
@@ -203,6 +203,6 @@ services:
       MYSQL_ROOT_PASSWORD: ${nc_mysql_root_pass}
       MYSQL_USER: ${nc_mysql_user}
     volumes:
-    - nextcloud-mariadb:/var/lib/mysql
+    - mariadb:/var/lib/mysql
     labels:
       io.rancher.container.hostname_override: container_name
