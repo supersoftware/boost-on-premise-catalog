@@ -2,40 +2,40 @@ version: '2'
 volumes:
   arangodb3-agency1:
     driver: rexray
-  arangodb3-agency2:
-    driver: rexray
-  arangodb3-agency3:
-    driver: rexray
+  # arangodb3-agency2:
+  #   driver: rexray
+  # arangodb3-agency3:
+  #   driver: rexray
   arangodb3-coordinator1:
     driver: rexray
-  arangodb3-coordinator2:
-    driver: rexray
-  arangodb3-coordinator3:
-    driver: rexray
+  # arangodb3-coordinator2:
+  #   driver: rexray
+  # arangodb3-coordinator3:
+  #   driver: rexray
   arangodb3-db1:
     driver: rexray
-  arangodb3-db2:
-    driver: rexray
-  arangodb3-db3:
-    driver: rexray
+  # arangodb3-db2:
+  #   driver: rexray
+  # arangodb3-db3:
+  #   driver: rexray
   arangodb3-apps-agency1:
     driver: rexray
-  arangodb3-apps-agency2:
-    driver: rexray
-  arangodb3-apps-agency3:
-    driver: rexray
+  # arangodb3-apps-agency2:
+  #   driver: rexray
+  # arangodb3-apps-agency3:
+  #   driver: rexray
   arangodb3-apps-coordinator1:
     driver: rexray
-  arangodb3-apps-coordinator2:
-    driver: rexray
-  arangodb3-apps-coordinator3:
-    driver: rexray
+  # arangodb3-apps-coordinator2:
+  #   driver: rexray
+  # arangodb3-apps-coordinator3:
+  #   driver: rexray
   arangodb3-apps-db1:
     driver: rexray
-  arangodb3-apps-db2:
-    driver: rexray
-  arangodb3-apps-db3:
-    driver: rexray
+  # arangodb3-apps-db2:
+  #   driver: rexray
+  # arangodb3-apps-db3:
+  #   driver: rexray
 services:
   agency1:
     image: arangodb/arangodb
@@ -53,7 +53,8 @@ services:
     - --server.authentication
     - 'false'
     - --agency.size
-    - '3'
+    # - '3'
+    - '1'
     - --agency.activate
     - 'true'
     - --agency.supervision
@@ -64,66 +65,66 @@ services:
       arangodb: agency
       io.rancher.container.hostname_override: container_name
       io.rancher.scheduler.affinity:container_label_ne: arangodb=agency
-  agency2:
-    image: arangodb/arangodb
-    environment:
-      ARANGO_NO_AUTH: '1'
-    volumes:
-    - arangodb3-agency2:/var/lib/arangodb3
-    - arangodb3-apps-agency2:/var/lib/arangodb3-apps
-    command:
-    - arangod
-    - --server.endpoint
-    - tcp://0.0.0.0:8529
-    - --agency.my-address
-    - tcp://agency2:8529
-    - --server.authentication
-    - 'false'
-    - --agency.size
-    - '3'
-    - --agency.activate
-    - 'true'
-    - --agency.supervision
-    - 'true'
-    - --database.directory
-    - /var/lib/arangodb3/agency2
-    labels:
-      arangodb: agency
-      io.rancher.container.hostname_override: container_name
-      io.rancher.scheduler.affinity:container_label_ne: arangodb=agency
-  agency3:
-    image: arangodb/arangodb
-    environment:
-      ARANGO_NO_AUTH: '1'
-    volumes:
-    - arangodb3-agency3:/var/lib/arangodb3
-    - arangodb3-apps-agency3:/var/lib/arangodb3-apps
-    command:
-    - arangod
-    - --server.endpoint
-    - tcp://0.0.0.0:8529
-    - --agency.my-address
-    - tcp://agency3:8529
-    - --server.authentication
-    - 'false'
-    - --agency.size
-    - '3'
-    - --agency.endpoint
-    - tcp://agency1:8529
-    - --agency.endpoint
-    - tcp://agency2:8529
-    - --agency.endpoint
-    - tcp://agency3:8529
-    - --agency.activate
-    - 'true'
-    - --agency.supervision
-    - 'true'
-    - --database.directory
-    - /var/lib/arangodb3/agency3
-    labels:
-      arangodb: agency
-      io.rancher.container.hostname_override: container_name
-      io.rancher.scheduler.affinity:container_label_ne: arangodb=agency
+  # agency2:
+  #   image: arangodb/arangodb
+  #   environment:
+  #     ARANGO_NO_AUTH: '1'
+  #   volumes:
+  #   - arangodb3-agency2:/var/lib/arangodb3
+  #   - arangodb3-apps-agency2:/var/lib/arangodb3-apps
+  #   command:
+  #   - arangod
+  #   - --server.endpoint
+  #   - tcp://0.0.0.0:8529
+  #   - --agency.my-address
+  #   - tcp://agency2:8529
+  #   - --server.authentication
+  #   - 'false'
+  #   - --agency.size
+  #   - '3'
+  #   - --agency.activate
+  #   - 'true'
+  #   - --agency.supervision
+  #   - 'true'
+  #   - --database.directory
+  #   - /var/lib/arangodb3/agency2
+  #   labels:
+  #     arangodb: agency
+  #     io.rancher.container.hostname_override: container_name
+  #     io.rancher.scheduler.affinity:container_label_ne: arangodb=agency
+  # agency3:
+  #   image: arangodb/arangodb
+  #   environment:
+  #     ARANGO_NO_AUTH: '1'
+  #   volumes:
+  #   - arangodb3-agency3:/var/lib/arangodb3
+  #   - arangodb3-apps-agency3:/var/lib/arangodb3-apps
+  #   command:
+  #   - arangod
+  #   - --server.endpoint
+  #   - tcp://0.0.0.0:8529
+  #   - --agency.my-address
+  #   - tcp://agency3:8529
+  #   - --server.authentication
+  #   - 'false'
+  #   - --agency.size
+  #   - '3'
+  #   - --agency.endpoint
+  #   - tcp://agency1:8529
+  #   - --agency.endpoint
+  #   - tcp://agency2:8529
+  #   - --agency.endpoint
+  #   - tcp://agency3:8529
+  #   - --agency.activate
+  #   - 'true'
+  #   - --agency.supervision
+  #   - 'true'
+  #   - --database.directory
+  #   - /var/lib/arangodb3/agency3
+  #   labels:
+  #     arangodb: agency
+  #     io.rancher.container.hostname_override: container_name
+  #     io.rancher.scheduler.affinity:container_label_ne: arangodb=agency
   coordinator1:
     image: arangodb/arangodb
     environment:
@@ -144,76 +145,76 @@ services:
     - COORDINATOR
     - --cluster.agency-endpoint
     - tcp://agency1:8529
-    - --cluster.agency-endpoint
-    - tcp://agency2:8529
-    - --cluster.agency-endpoint
-    - tcp://agency3:8529
+    # - --cluster.agency-endpoint
+    # - tcp://agency2:8529
+    # - --cluster.agency-endpoint
+    # - tcp://agency3:8529
     - --database.directory
     - /var/lib/arangodb3/coordinator1
     labels:
       arangodb: coordinator
       io.rancher.container.hostname_override: container_name
       io.rancher.scheduler.affinity:container_label_ne: arangodb=coordinator
-  coordinator2:
-    image: arangodb/arangodb
-    environment:
-      ARANGO_NO_AUTH: '1'
-    volumes:
-    - arangodb3-coordinator2:/var/lib/arangodb3
-    - arangodb3-apps-coordinator2:/var/lib/arangodb3-apps
-    command:
-    - arangod
-    - --server.authentication=false
-    - --server.endpoint
-    - tcp://0.0.0.0:8529
-    - --cluster.my-address
-    - tcp://coordinator2:8529
-    - --cluster.my-local-info
-    - coord2
-    - --cluster.my-role
-    - COORDINATOR
-    - --cluster.agency-endpoint
-    - tcp://agency1:8529
-    - --cluster.agency-endpoint
-    - tcp://agency2:8529
-    - --cluster.agency-endpoint
-    - tcp://agency3:8529
-    - --database.directory
-    - /var/lib/arangodb3/coordinator2
-    labels:
-      arangodb: coordinator
-      io.rancher.container.hostname_override: container_name
-      io.rancher.scheduler.affinity:container_label_ne: arangodb=coordinator
-  coordinator3:
-    image: arangodb/arangodb
-    environment:
-      ARANGO_NO_AUTH: '1'
-    volumes:
-    - arangodb3-coordinator3:/var/lib/arangodb3
-    - arangodb3-apps-coordinator3:/var/lib/arangodb3-apps
-    command:
-    - arangod
-    - --server.authentication=false
-    - --server.endpoint
-    - tcp://0.0.0.0:8529
-    - --cluster.my-address
-    - tcp://coordinator3:8529
-    - --cluster.my-local-info
-    - coord3
-    - --cluster.my-role
-    - COORDINATOR
-    - --cluster.agency-endpoint
-    - tcp://agency1:8529
-    - --cluster.agency-endpoint
-    - tcp://agency2:8529
-    - --cluster.agency-endpoint
-    - tcp://agency3:8529
-    - --database.directory
-    - /var/lib/arangodb3/coordinator3
-    labels:
-      arangodb: coordinator
-      io.rancher.container.hostname_override: container_name
-      io.rancher.scheduler.affinity:container_label_ne: arangodb=coordinator
+  # coordinator2:
+  #   image: arangodb/arangodb
+  #   environment:
+  #     ARANGO_NO_AUTH: '1'
+  #   volumes:
+  #   - arangodb3-coordinator2:/var/lib/arangodb3
+  #   - arangodb3-apps-coordinator2:/var/lib/arangodb3-apps
+  #   command:
+  #   - arangod
+  #   - --server.authentication=false
+  #   - --server.endpoint
+  #   - tcp://0.0.0.0:8529
+  #   - --cluster.my-address
+  #   - tcp://coordinator2:8529
+  #   - --cluster.my-local-info
+  #   - coord2
+  #   - --cluster.my-role
+  #   - COORDINATOR
+  #   - --cluster.agency-endpoint
+  #   - tcp://agency1:8529
+  #   - --cluster.agency-endpoint
+  #   - tcp://agency2:8529
+  #   - --cluster.agency-endpoint
+  #   - tcp://agency3:8529
+  #   - --database.directory
+  #   - /var/lib/arangodb3/coordinator2
+  #   labels:
+  #     arangodb: coordinator
+  #     io.rancher.container.hostname_override: container_name
+  #     io.rancher.scheduler.affinity:container_label_ne: arangodb=coordinator
+  # coordinator3:
+  #   image: arangodb/arangodb
+  #   environment:
+  #     ARANGO_NO_AUTH: '1'
+  #   volumes:
+  #   - arangodb3-coordinator3:/var/lib/arangodb3
+  #   - arangodb3-apps-coordinator3:/var/lib/arangodb3-apps
+  #   command:
+  #   - arangod
+  #   - --server.authentication=false
+  #   - --server.endpoint
+  #   - tcp://0.0.0.0:8529
+  #   - --cluster.my-address
+  #   - tcp://coordinator3:8529
+  #   - --cluster.my-local-info
+  #   - coord3
+  #   - --cluster.my-role
+  #   - COORDINATOR
+  #   - --cluster.agency-endpoint
+  #   - tcp://agency1:8529
+  #   - --cluster.agency-endpoint
+  #   - tcp://agency2:8529
+  #   - --cluster.agency-endpoint
+  #   - tcp://agency3:8529
+  #   - --database.directory
+  #   - /var/lib/arangodb3/coordinator3
+  #   labels:
+  #     arangodb: coordinator
+  #     io.rancher.container.hostname_override: container_name
+  #     io.rancher.scheduler.affinity:container_label_ne: arangodb=coordinator
   db1:
     image: arangodb/arangodb
     environment:
@@ -234,73 +235,73 @@ services:
     - PRIMARY
     - --cluster.agency-endpoint
     - tcp://agency1:8529
-    - --cluster.agency-endpoint
-    - tcp://agency2:8529
-    - --cluster.agency-endpoint
-    - tcp://agency3:8529
+    # - --cluster.agency-endpoint
+    # - tcp://agency2:8529
+    # - --cluster.agency-endpoint
+    # - tcp://agency3:8529
     - --database.directory
     - /var/lib/arangodb3/primary1
     labels:
       arangodb: db
       io.rancher.container.hostname_override: container_name
       io.rancher.scheduler.affinity:container_label_ne: arangodb=db
-  db2:
-    image: arangodb/arangodb
-    environment:
-      ARANGO_NO_AUTH: '1'
-    volumes:
-    - arangodb3-db2:/var/lib/arangodb3
-    - arangodb3-apps-db2:/var/lib/arangodb3-apps
-    command:
-    - arangod
-    - --server.authentication=false
-    - --server.endpoint
-    - tcp://0.0.0.0:8529
-    - --cluster.my-address
-    - tcp://db2:8529
-    - --cluster.my-local-info
-    - db2
-    - --cluster.my-role
-    - PRIMARY
-    - --cluster.agency-endpoint
-    - tcp://agency1:8529
-    - --cluster.agency-endpoint
-    - tcp://agency2:8529
-    - --cluster.agency-endpoint
-    - tcp://agency3:8529
-    - --database.directory
-    - /var/lib/arangodb3/primary2
-    labels:
-      arangodb: db
-      io.rancher.container.hostname_override: container_name
-      io.rancher.scheduler.affinity:container_label_ne: arangodb=db
-  db3:
-    image: arangodb/arangodb
-    environment:
-      ARANGO_NO_AUTH: '1'
-    volumes:
-    - arangodb3-db3:/var/lib/arangodb3
-    - arangodb3-apps-db3:/var/lib/arangodb3-apps
-    command:
-    - arangod
-    - --server.authentication=false
-    - --server.endpoint
-    - tcp://0.0.0.0:8529
-    - --cluster.my-address
-    - tcp://db3:8529
-    - --cluster.my-local-info
-    - db3
-    - --cluster.my-role
-    - PRIMARY
-    - --cluster.agency-endpoint
-    - tcp://agency1:8529
-    - --cluster.agency-endpoint
-    - tcp://agency2:8529
-    - --cluster.agency-endpoint
-    - tcp://agency3:8529
-    - --database.directory
-    - /var/lib/arangodb3/primary3
-    labels:
-      arangodb: db
-      io.rancher.container.hostname_override: container_name
-      io.rancher.scheduler.affinity:container_label_ne: arangodb=db
+  # db2:
+  #   image: arangodb/arangodb
+  #   environment:
+  #     ARANGO_NO_AUTH: '1'
+  #   volumes:
+  #   - arangodb3-db2:/var/lib/arangodb3
+  #   - arangodb3-apps-db2:/var/lib/arangodb3-apps
+  #   command:
+  #   - arangod
+  #   - --server.authentication=false
+  #   - --server.endpoint
+  #   - tcp://0.0.0.0:8529
+  #   - --cluster.my-address
+  #   - tcp://db2:8529
+  #   - --cluster.my-local-info
+  #   - db2
+  #   - --cluster.my-role
+  #   - PRIMARY
+  #   - --cluster.agency-endpoint
+  #   - tcp://agency1:8529
+  #   - --cluster.agency-endpoint
+  #   - tcp://agency2:8529
+  #   - --cluster.agency-endpoint
+  #   - tcp://agency3:8529
+  #   - --database.directory
+  #   - /var/lib/arangodb3/primary2
+  #   labels:
+  #     arangodb: db
+  #     io.rancher.container.hostname_override: container_name
+  #     io.rancher.scheduler.affinity:container_label_ne: arangodb=db
+  # db3:
+  #   image: arangodb/arangodb
+  #   environment:
+  #     ARANGO_NO_AUTH: '1'
+  #   volumes:
+  #   - arangodb3-db3:/var/lib/arangodb3
+  #   - arangodb3-apps-db3:/var/lib/arangodb3-apps
+  #   command:
+  #   - arangod
+  #   - --server.authentication=false
+  #   - --server.endpoint
+  #   - tcp://0.0.0.0:8529
+  #   - --cluster.my-address
+  #   - tcp://db3:8529
+  #   - --cluster.my-local-info
+  #   - db3
+  #   - --cluster.my-role
+  #   - PRIMARY
+  #   - --cluster.agency-endpoint
+  #   - tcp://agency1:8529
+  #   - --cluster.agency-endpoint
+  #   - tcp://agency2:8529
+  #   - --cluster.agency-endpoint
+  #   - tcp://agency3:8529
+  #   - --database.directory
+  #   - /var/lib/arangodb3/primary3
+  #   labels:
+  #     arangodb: db
+  #     io.rancher.container.hostname_override: container_name
+  #     io.rancher.scheduler.affinity:container_label_ne: arangodb=db
