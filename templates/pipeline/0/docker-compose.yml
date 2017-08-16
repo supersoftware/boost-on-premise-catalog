@@ -1,23 +1,23 @@
 version: '2'
 volumes:
   authority-certs:
-    external: true
+    driver: rexray
   nextcloud-mariadb:
-    external: true
+    driver: rexray
   nextcloud-data:
-    external: true
+    driver: rexray
   gitlab-opt:
-    external: true
+    driver: rexray
   gitlab-etc:
-    external: true
+    driver: rexray
   gitlab-log:
-    external: true
+    driver: rexray
   postfix-log:
-    external: true
+    driver: rexray
   postfix-spool:
-    external: true
+    driver: rexray
   runner01-etc:
-    external: true
+    driver: rexray
 services:
   runner01:
     image: gitlab/gitlab-runner
