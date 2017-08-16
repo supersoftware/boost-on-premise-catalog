@@ -1,53 +1,59 @@
 version: '2'
 volumes:
   arangodb3-agency1:
-    driver: pxd
+    external: true
+    driver: rexray
   arangodb3-agency2:
-    driver: pxd
+    external: true
+    driver: rexray
   arangodb3-agency3:
-    driver: pxd
+    external: true
+    driver: rexray
   arangodb3-coordinator1:
-    driver: pxd
+    external: true
+    driver: rexray
   arangodb3-coordinator2:
-    driver: pxd
+    external: true
+    driver: rexray
   arangodb3-coordinator3:
-    driver: pxd
+    external: true
+    driver: rexray
   arangodb3-db1:
-    driver: pxd
-    driver_opts:
-      size: '10'
+    external: true
+    driver: rexray
   arangodb3-db2:
-    driver: pxd
-    driver_opts:
-      size: '10'
+    external: true
+    driver: rexray
   arangodb3-db3:
-    driver: pxd
-    driver_opts:
-      size: '10'
+    external: true
+    driver: rexray
   arangodb3-apps-agency1:
-    driver: pxd
+    external: true
+    driver: rexray
   arangodb3-apps-agency2:
-    driver: pxd
+    external: true
+    driver: rexray
   arangodb3-apps-agency3:
-    driver: pxd
+    external: true
+    driver: rexray
   arangodb3-apps-coordinator1:
-    driver: pxd
-    driver_opts:
-      size: '10'
+    external: true
+    driver: rexray
   arangodb3-apps-coordinator2:
-    driver: pxd
-    driver_opts:
-      size: '10'
+    external: true
+    driver: rexray
   arangodb3-apps-coordinator3:
-    driver: pxd
-    driver_opts:
-      size: '10'
+    external: true
+    driver: rexray
   arangodb3-apps-db1:
-    driver: pxd
+    external: true
+    driver: rexray
   arangodb3-apps-db2:
-    driver: pxd
+    external: true
+    driver: rexray
   arangodb3-apps-db3:
-    driver: pxd
+    external: true
+    driver: rexray
 services:
   agency1:
     image: arangodb/arangodb

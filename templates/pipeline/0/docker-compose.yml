@@ -1,33 +1,32 @@
 version: '2'
 volumes:
   authority-certs:
-    driver: pxd
+    external: true
+    driver: rexray
   nextcloud-mariadb:
-    driver: pxd
-    driver_opts:
-      size: '10'
+    external: true
+    driver: rexray
   nextcloud-data:
-    driver: pxd
-    driver_opts:
-      size: '100'
+    external: true
+    driver: rexray
   gitlab-opt:
-    driver: pxd
-    driver_opts:
-      size: '100'
+    external: true
+    driver: rexray
   gitlab-etc:
-    driver: pxd
+    external: true
+    driver: rexray
   gitlab-log:
-    driver: pxd
+    external: true
+    driver: rexray
   postfix-log:
-    driver: pxd
+    external: true
+    driver: rexray
   postfix-spool:
-    driver: pxd
-    driver_opts:
-      size: '5'
+    external: true
+    driver: rexray
   runner01-etc:
-    driver: pxd
-    driver_opts:
-      size: '5'
+    external: true
+    driver: rexray
 services:
   runner01:
     image: gitlab/gitlab-runner
@@ -65,7 +64,7 @@ services:
     image: supersoftware/bop:register-service
     environment:
       CONSUL_URL: http://pipeline-register-service-consul-1.rancher.internal:8500/v1
-      SERVICES: '[{"ID":"git1","Name":"git","Address":"${resolve_ip}"},{"ID":"registry","Name":"registry","Address":"${resolve_ip}"},{"ID":"chat1","Name":"chat","Address":"${resolve_ip}"},{"ID":"apigw1","Name":"apigw","Address":"${resolve_ip}"},{"ID":"db1","Name":"db","Address":"${resolve_ip}"},{"ID":"assets1","Name":"assets","Address":"${resolve_ip}"},{"ID":"selenium1","Name":"selenium","Address":"${resolve_ip}"},{"ID":"share1","Name":"share","Address":"${resolve_ip}"}]'
+      SERVICES: '[{"ID":"git1","Name":"git","Address":"${resolve_ip}"},{"ID":"registry1","Name":"registry","Address":"${resolve_ip}"},{"ID":"chat1","Name":"chat","Address":"${resolve_ip}"},{"ID":"apigw1","Name":"apigw","Address":"${resolve_ip}"},{"ID":"db1","Name":"db","Address":"${resolve_ip}"},{"ID":"assets1","Name":"assets","Address":"${resolve_ip}"},{"ID":"selenium1","Name":"selenium","Address":"${resolve_ip}"},{"ID":"share1","Name":"share","Address":"${resolve_ip}"}]'
     stdin_open: true
     tty: true
     labels:

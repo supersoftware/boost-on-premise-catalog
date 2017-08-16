@@ -1,9 +1,8 @@
 version: '2'
 volumes:
   kong-postgres:
-    driver: pxd
-    driver_opts:
-      size: '5'
+    external: true
+    driver: rexray
 services:
   kong-dashboard:
     image: pgbi/kong-dashboard:v2

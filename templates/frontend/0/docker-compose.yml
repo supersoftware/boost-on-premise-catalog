@@ -1,13 +1,11 @@
 version: '2'
 volumes:
   minio-scheduler-setting:
-    driver: pxd
-    per_container: true
+    external: true
+    driver: rexray
   minio-data-0:
-    driver: pxd
-    per_container: true
-    driver_opts:
-      size: '100'
+    external: true
+    driver: rexray
 services:
   rancher-cattle-metadata:
     image: webcenter/rancher-cattle-metadata:1.0.1
