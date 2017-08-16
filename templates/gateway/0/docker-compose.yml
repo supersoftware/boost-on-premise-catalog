@@ -1,6 +1,6 @@
 version: '2'
 volumes:
-  kong-postgres:
+  postgres:
     driver: rexray
 services:
   kong-dashboard:
@@ -20,7 +20,7 @@ services:
     stdin_open: true
     tty: true
     volumes:
-    - kong-postgres:/var/lib/postgresql/data/pgdata
+    - postgres:/var/lib/postgresql/data/pgdata
     labels:
       io.rancher.container.pull_image: always
       io.rancher.container.hostname_override: container_name

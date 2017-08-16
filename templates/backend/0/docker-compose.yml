@@ -1,40 +1,40 @@
 version: '2'
 volumes:
-  arangodb3-agency1:
+  agency1:
     driver: rexray
-  # arangodb3-agency2:
+  # agency2:
   #   driver: rexray
-  # arangodb3-agency3:
+  # agency3:
   #   driver: rexray
-  arangodb3-coordinator1:
+  coordinator1:
     driver: rexray
-  # arangodb3-coordinator2:
+  # coordinator2:
   #   driver: rexray
-  # arangodb3-coordinator3:
+  # coordinator3:
   #   driver: rexray
-  arangodb3-db1:
+  db1:
     driver: rexray
-  # arangodb3-db2:
+  # db2:
   #   driver: rexray
-  # arangodb3-db3:
+  # db3:
   #   driver: rexray
-  arangodb3-apps-agency1:
+  apps-agency1:
     driver: rexray
-  # arangodb3-apps-agency2:
+  # apps-agency2:
   #   driver: rexray
-  # arangodb3-apps-agency3:
+  # apps-agency3:
   #   driver: rexray
-  arangodb3-apps-coordinator1:
+  apps-coordinator1:
     driver: rexray
-  # arangodb3-apps-coordinator2:
+  # apps-coordinator2:
   #   driver: rexray
-  # arangodb3-apps-coordinator3:
+  # apps-coordinator3:
   #   driver: rexray
-  arangodb3-apps-db1:
+  apps-db1:
     driver: rexray
-  # arangodb3-apps-db2:
+  # apps-db2:
   #   driver: rexray
-  # arangodb3-apps-db3:
+  # apps-db3:
   #   driver: rexray
 services:
   agency1:
@@ -42,8 +42,8 @@ services:
     environment:
       ARANGO_NO_AUTH: '1'
     volumes:
-    - arangodb3-agency1:/var/lib/arangodb3
-    - arangodb3-apps-agency1:/var/lib/arangodb3-apps
+    - agency1:/var/lib/arangodb3
+    - apps-agency1:/var/lib/arangodb3-apps
     command:
     - arangod
     - --server.endpoint
@@ -70,8 +70,8 @@ services:
   #   environment:
   #     ARANGO_NO_AUTH: '1'
   #   volumes:
-  #   - arangodb3-agency2:/var/lib/arangodb3
-  #   - arangodb3-apps-agency2:/var/lib/arangodb3-apps
+  #   - agency2:/var/lib/arangodb3
+  #   - apps-agency2:/var/lib/arangodb3-apps
   #   command:
   #   - arangod
   #   - --server.endpoint
@@ -97,8 +97,8 @@ services:
   #   environment:
   #     ARANGO_NO_AUTH: '1'
   #   volumes:
-  #   - arangodb3-agency3:/var/lib/arangodb3
-  #   - arangodb3-apps-agency3:/var/lib/arangodb3-apps
+  #   - agency3:/var/lib/arangodb3
+  #   - apps-agency3:/var/lib/arangodb3-apps
   #   command:
   #   - arangod
   #   - --server.endpoint
@@ -130,8 +130,8 @@ services:
     environment:
       ARANGO_NO_AUTH: '1'
     volumes:
-    - arangodb3-coordinator1:/var/lib/arangodb3
-    - arangodb3-apps-coordinator1:/var/lib/arangodb3-apps
+    - coordinator1:/var/lib/arangodb3
+    - apps-coordinator1:/var/lib/arangodb3-apps
     command:
     - arangod
     - --server.authentication=false
@@ -160,8 +160,8 @@ services:
   #   environment:
   #     ARANGO_NO_AUTH: '1'
   #   volumes:
-  #   - arangodb3-coordinator2:/var/lib/arangodb3
-  #   - arangodb3-apps-coordinator2:/var/lib/arangodb3-apps
+  #   - coordinator2:/var/lib/arangodb3
+  #   - apps-coordinator2:/var/lib/arangodb3-apps
   #   command:
   #   - arangod
   #   - --server.authentication=false
@@ -190,8 +190,8 @@ services:
   #   environment:
   #     ARANGO_NO_AUTH: '1'
   #   volumes:
-  #   - arangodb3-coordinator3:/var/lib/arangodb3
-  #   - arangodb3-apps-coordinator3:/var/lib/arangodb3-apps
+  #   - coordinator3:/var/lib/arangodb3
+  #   - apps-coordinator3:/var/lib/arangodb3-apps
   #   command:
   #   - arangod
   #   - --server.authentication=false
@@ -220,8 +220,8 @@ services:
     environment:
       ARANGO_NO_AUTH: '1'
     volumes:
-    - arangodb3-db1:/var/lib/arangodb3
-    - arangodb3-apps-db1:/var/lib/arangodb3-apps
+    - db1:/var/lib/arangodb3
+    - apps-db1:/var/lib/arangodb3-apps
     command:
     - arangod
     - --server.authentication=false
@@ -250,8 +250,8 @@ services:
   #   environment:
   #     ARANGO_NO_AUTH: '1'
   #   volumes:
-  #   - arangodb3-db2:/var/lib/arangodb3
-  #   - arangodb3-apps-db2:/var/lib/arangodb3-apps
+  #   - db2:/var/lib/arangodb3
+  #   - apps-db2:/var/lib/arangodb3-apps
   #   command:
   #   - arangod
   #   - --server.authentication=false
@@ -280,8 +280,8 @@ services:
   #   environment:
   #     ARANGO_NO_AUTH: '1'
   #   volumes:
-  #   - arangodb3-db3:/var/lib/arangodb3
-  #   - arangodb3-apps-db3:/var/lib/arangodb3-apps
+  #   - db3:/var/lib/arangodb3
+  #   - apps-db3:/var/lib/arangodb3-apps
   #   command:
   #   - arangod
   #   - --server.authentication=false
