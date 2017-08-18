@@ -29,7 +29,6 @@ services:
     - git.service.${ctd}
     - registry.service.${ctd}
     volumes:
-    - /var/lib/docker:/var/lib/docker
     - /var/run/docker.sock:/var/run/docker.sock
     - runner01-etc:/etc/gitlab-runner
     - runner01-home:/home/gitlab-runner
@@ -94,6 +93,7 @@ services:
       DOCKER_DNS: ${dns_srv_addr}
     stdin_open: true
     volumes:
+    - /var/lib/docker:/var/lib/docker
     - /var/run/docker.sock:/var/run/docker.sock
     tty: true
     labels:
