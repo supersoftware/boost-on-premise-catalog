@@ -1,41 +1,41 @@
 version: '2'
 volumes:
   agency1:
-    driver: rancher-nfs
+    external: true
   # agency2:
-  #   driver: rancher-nfs
+  #   external: true
   # agency3:
-  #   driver: rancher-nfs
+  #   external: true
   coordinator1:
-    driver: rancher-nfs
+    external: true
   # coordinator2:
-  #   driver: rancher-nfs
+  #   external: true
   # coordinator3:
-  #   driver: rancher-nfs
+  #   external: true
   db1:
-    driver: rancher-nfs
+    external: true
   # db2:
-  #   driver: rancher-nfs
+  #   external: true
   # db3:
-  #   driver: rancher-nfs
+  #   external: true
   apps-agency1:
-    driver: rancher-nfs
+    external: true
   # apps-agency2:
-  #   driver: rancher-nfs
+  #   external: true
   # apps-agency3:
-  #   driver: rancher-nfs
+  #   external: true
   apps-coordinator1:
-    driver: rancher-nfs
+    external: true
   # apps-coordinator2:
-  #   driver: rancher-nfs
+  #   external: true
   # apps-coordinator3:
-  #   driver: rancher-nfs
+  #   external: true
   apps-db1:
-    driver: rancher-nfs
+    external: true
   # apps-db2:
-  #   driver: rancher-nfs
+  #   external: true
   # apps-db3:
-  #   driver: rancher-nfs
+  #   external: true
 services:
   agency1:
     image: arangodb/arangodb

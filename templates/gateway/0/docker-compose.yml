@@ -1,7 +1,7 @@
 version: '2'
 volumes:
   postgres:
-    driver: rancher-nfs
+    external: true
 services:
   kong-dashboard:
     image: pgbi/kong-dashboard:v2

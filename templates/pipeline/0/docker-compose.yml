@@ -1,23 +1,23 @@
 version: '2'
 volumes:
   certs:
-    driver: rancher-nfs
+    external: true
   mariadb:
-    driver: rancher-nfs
+    external: true
   nc-data:
-    driver: rancher-nfs
+    external: true
   gitlab-opt:
-    driver: rancher-nfs
+    external: true
   gitlab-etc:
-    driver: rancher-nfs
+    external: true
   gitlab-log:
-    driver: rancher-nfs
+    external: true
   postfix-log:
-    driver: rancher-nfs
+    external: true
   postfix-spool:
-    driver: rancher-nfs
+    external: true
   runner01-etc:
-    driver: rancher-nfs
+    external: true
 services:
   runner01:
     image: gitlab/gitlab-runner

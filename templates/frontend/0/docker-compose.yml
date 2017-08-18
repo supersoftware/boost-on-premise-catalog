@@ -1,10 +1,10 @@
 version: '2'
 volumes:
   schd-conf:
-    driver: rancher-nfs
+    external: true
     # per_container: true
   data-0:
-    driver: rancher-nfs
+    external: true
     # per_container: true
 services:
   rancher-cattle-metadata:
