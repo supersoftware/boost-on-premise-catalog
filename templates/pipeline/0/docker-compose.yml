@@ -2,9 +2,9 @@ version: '2'
 volumes:
   certs:
     external: true
-  mariadb:
+  nextcloud-mariadb:
     external: true
-  nc-data:
+  nextcloud-data:
     external: true
   gitlab-opt:
     external: true
@@ -18,6 +18,10 @@ volumes:
     external: true
   runner01-etc:
     external: true
+  runner01-home:
+    external: true
+  consul-data:
+    external: true
 services:
   runner01:
     image: gitlab/gitlab-runner
@@ -25,8 +29,10 @@ services:
     - git.service.${ctd}
     - registry.service.${ctd}
     volumes:
+    - /var/lib/docker:/var/lib/docker
     - /var/run/docker.sock:/var/run/docker.sock
     - runner01-etc:/etc/gitlab-runner
+    - runner01-home:/home/gitlab-runner
     dns:
     - ${dns_srv_addr}
     labels:
@@ -131,6 +137,8 @@ services:
     - -datacenter
     - rancher
     - -ui
+    volumes:
+    - consule-data:/consul/data
     labels:
       io.rancher.container.pull_image: always
       io.rancher.scheduler.affinity:host_label: external_dns=true
@@ -167,7 +175,7 @@ services:
     - gitlab-etc:/etc/gitlab
     - gitlab-opt:/var/opt/gitlab
     - gitlab-log:/var/log/gitlab
-    - authority-certs:/etc/gitlab/trusted-certs
+    - certs:/etc/gitlab/trusted-certs
     tty: true
     links:
     - register-cert:register-cert
@@ -192,7 +200,7 @@ services:
   nextcloud:
     image: nextcloud:12-apache
     volumes:
-    - nc-data:/var/www/html
+    - nextcloud-data:/var/www/html
     labels:
       io.rancher.container.hostname_override: container_name
   mariadb:
@@ -203,6 +211,6 @@ services:
       MYSQL_ROOT_PASSWORD: ${nc_mysql_root_pass}
       MYSQL_USER: ${nc_mysql_user}
     volumes:
-    - mariadb:/var/lib/mysql
+    - nextcloud-mariadb:/var/lib/mysql
     labels:
       io.rancher.container.hostname_override: container_name
