@@ -1,41 +1,41 @@
 version: '2'
 volumes:
   agency1:
-    driver: rexray
+    driver: rancher-nfs
   # agency2:
-  #   driver: rexray
+  #   driver: rancher-nfs
   # agency3:
-  #   driver: rexray
+  #   driver: rancher-nfs
   coordinator1:
-    driver: rexray
+    driver: rancher-nfs
   # coordinator2:
-  #   driver: rexray
+  #   driver: rancher-nfs
   # coordinator3:
-  #   driver: rexray
+  #   driver: rancher-nfs
   db1:
-    driver: rexray
+    driver: rancher-nfs
   # db2:
-  #   driver: rexray
+  #   driver: rancher-nfs
   # db3:
-  #   driver: rexray
+  #   driver: rancher-nfs
   apps-agency1:
-    driver: rexray
+    driver: rancher-nfs
   # apps-agency2:
-  #   driver: rexray
+  #   driver: rancher-nfs
   # apps-agency3:
-  #   driver: rexray
+  #   driver: rancher-nfs
   apps-coordinator1:
-    driver: rexray
+    driver: rancher-nfs
   # apps-coordinator2:
-  #   driver: rexray
+  #   driver: rancher-nfs
   # apps-coordinator3:
-  #   driver: rexray
+  #   driver: rancher-nfs
   apps-db1:
-    driver: rexray
+    driver: rancher-nfs
   # apps-db2:
-  #   driver: rexray
+  #   driver: rancher-nfs
   # apps-db3:
-  #   driver: rexray
+  #   driver: rancher-nfs
 services:
   agency1:
     image: arangodb/arangodb

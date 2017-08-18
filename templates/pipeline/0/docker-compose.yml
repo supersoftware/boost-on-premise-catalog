@@ -1,23 +1,23 @@
 version: '2'
 volumes:
   certs:
-    driver: rexray
+    driver: rancher-nfs
   mariadb:
-    driver: rexray
+    driver: rancher-nfs
   nc-data:
-    driver: rexray
+    driver: rancher-nfs
   gitlab-opt:
-    driver: rexray
+    driver: rancher-nfs
   gitlab-etc:
-    driver: rexray
+    driver: rancher-nfs
   gitlab-log:
-    driver: rexray
+    driver: rancher-nfs
   postfix-log:
-    driver: rexray
+    driver: rancher-nfs
   postfix-spool:
-    driver: rexray
+    driver: rancher-nfs
   runner01-etc:
-    driver: rexray
+    driver: rancher-nfs
 services:
   runner01:
     image: gitlab/gitlab-runner
