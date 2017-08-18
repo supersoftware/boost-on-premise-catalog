@@ -28,6 +28,9 @@ version: '2'
     default: ""
     type: "password"
 services:
+  postgres-data:
+    scale: 1
+    start_on_create: true
   kong-dashboard:
     start_on_create: true
   postgres:

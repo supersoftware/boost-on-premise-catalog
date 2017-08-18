@@ -3,6 +3,16 @@ volumes:
   postgres:
     external: true
 services:
+  postgres-data:
+    image: busybox
+    stdin_open: true
+    volumes:
+    - postgres:/var/lib/postgresql/data/pgdata
+    tty: true
+    labels:
+      io.rancher.container.start_once: 'true'
+      io.rancher.container.hostname_override: container_name
+      io.rancher.container.pull_image: always
   kong-dashboard:
     image: pgbi/kong-dashboard:v2
     stdin_open: true
@@ -19,13 +29,14 @@ services:
       POSTGRES_PASSWORD: ${pg_password}
     stdin_open: true
     tty: true
-    volumes:
-    - postgres:/var/lib/postgresql/data/pgdata
+    volumes_from:
+    - postgres-data
     labels:
-      io.rancher.container.pull_image: always
+      io.rancher.sidekicks: postgres-data
       io.rancher.container.hostname_override: container_name
+      io.rancher.container.pull_image: always
   kong:
-    image: kong
+    image: kong:0.10.3
     environment:
       KONG_DATABASE: postgres
       KONG_PG_DATABASE: ${pg_database}
