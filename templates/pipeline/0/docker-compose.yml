@@ -20,8 +20,6 @@ volumes:
     external: true
   runner01-home:
     external: true
-  consul-data:
-    external: true
 services:
   runner01:
     image: gitlab/gitlab-runner
@@ -137,8 +135,6 @@ services:
     - -datacenter
     - rancher
     - -ui
-    volumes:
-    - consul-data:/consul/data
     labels:
       io.rancher.container.pull_image: always
       io.rancher.scheduler.affinity:host_label: external_dns=true
